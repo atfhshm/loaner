@@ -11,6 +11,9 @@ from decouple import config
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
+# Secret Key
+SECRET_KEY = config("SECRET_KEY")
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -152,8 +155,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 
-STATICFILE_DIR = BASE_DIR.joinpath("static/")
-STATICFILES_DIRS = (STATICFILE_DIR,)
+# STATICFILE_DIR = BASE_DIR.joinpath("static/")
+# STATICFILES_DIRS = (STATICFILE_DIR,)
 
 
 STATIC_URL = "/static/"

@@ -1,1 +1,1 @@
-# django-base-project
+# Django-auth

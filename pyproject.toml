@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "django-auth"
+version = "0.1.0"
+description = "Django JWT auth system"
+authors = ["atfhshm <its.atfhshm@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "django_auth"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+python-decouple = "^3.8"
+django = "==4.2.*"
+dj-database-url = "^2.0.0"
+djangorestframework = "^3.14.0"
+djangorestframework-simplejwt = "^5.2.2"
+django-cors-headers = "^4.2.0"
+drf-spectacular = "^0.26.4"
+pytest-django = "^4.5.2"
+coverage = "^7.2.7"
+gunicorn = "^21.2.0"
+psycopg = "^3.1.9"
+pillow = "^10.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
