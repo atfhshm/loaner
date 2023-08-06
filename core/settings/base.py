@@ -6,6 +6,9 @@ from pathlib import Path
 from datetime import timedelta
 from decouple import config
 
+
+from ..logging import LOGGING
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -26,8 +29,9 @@ INSTALLED_APPS = [
     # Third-party apps
     "rest_framework",
     "rest_framework_simplejwt",
-    "corsheaders"
+    "corsheaders",
     # Project apps
+    "users.apps.UsersConfig",
 ]
 
 # Middleware definition
@@ -174,7 +178,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Setting the default user model for custom user models
 
-# AUTH_USER_MODEL = ""
+AUTH_USER_MODEL = "users.User"
 
 
 # Redis settings
