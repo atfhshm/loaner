@@ -5,6 +5,13 @@ from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.utils import timezone
 
 
+class UserType(models.TextChoices):
+    STAFF = "STAFF", "Staff"
+    CUSTOMER = "CUSTOMER", "Customer"
+    BANKER = "BANKER", "Banker"
+    PROVIDER = "PROVIDER", "Provider"
+
+
 class UserManager(BaseUserManager):
     def create_user(
         self, first_name, last_name, email, username, password, **extra_fields
@@ -45,12 +52,39 @@ class UserManager(BaseUserManager):
         user.save()
         return user
 
+    def create_banker_user(
+        self, first_name, last_name, email, username, password, **extra_fields
+    ):
+        extra_fields.setdefault("user_type", UserType.BANKER)
+
+        return self.create_user(
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            username=username,
+            password=password,
+            **extra_fields,
+        )
+
+    def create_provider_user(
+        self, first_name, last_name, email, username, password, **extra_fields
+    ):
+        extra_fields.setdefault("user_type", UserType.PROVIDER)
+
+        return self.create_user(
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            username=username,
+            password=password,
+            **extra_fields,
+        )
+
     def create_superuser(
         self, first_name, last_name, email, username, password, **extra_fields
     ):
         extra_fields.setdefault("is_superuser", True)
         extra_fields.setdefault("is_staff", True)
-        extra_fields.setdefault("is_active", True)
 
         return self.create_user(
             first_name=first_name,
@@ -81,6 +115,9 @@ class User(AbstractBaseUser):
             "unique": _("A user with that email already exists."),
         },
     )
+    user_type = models.CharField(
+        _("user type"), max_length=12, choices=UserType.choices, default=UserType.STAFF
+    )
     is_staff = models.BooleanField(_("staff status"), default=False)
     is_active = models.BooleanField(_("active"), default=True)
     is_superuser = models.BooleanField(_("superuser status"), default=False)
@@ -88,9 +125,9 @@ class User(AbstractBaseUser):
 
     objects = UserManager()
 
+    REQUIRED_FIELDS = ["first_name", "last_name", "email"]
     EMAIL_FIELD = "email"
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["first_name", "last_name", "username"]
+    USERNAME_FIELD = "username"
 
     class Meta:
         db_table = "users"
@@ -98,13 +135,21 @@ class User(AbstractBaseUser):
         verbose_name_plural = _("users")
 
     def __str__(self) -> str:
-        return f"{self.email}"
+        return f"{self.username}"
+
+    @property
+    def is_authenticated(self):
+        # Required to implement django's user-model interface
+        return True
 
     def has_perm(self, perm, obj=None):
+        # Required to implement django's user-model interface
         return True
 
     def has_perms(self, perm_list, obj=None):
+        # Required to implement django's user-model interface
         return True
 
     def has_module_perms(self, app_label):
+        # Required to implement django's user-model interface
         return True

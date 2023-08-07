@@ -13,5 +13,8 @@ migrate:
 run-server:
 	poetry run python manage.py runserver
 
+shell:
+	poetry run python manage.py shell
+
 .PHONY: install migrations superuser migrate run-server update run;
 

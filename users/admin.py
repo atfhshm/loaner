@@ -11,8 +11,9 @@ admin.site.unregister(Group)
 class UserAdminConfig(UserAdmin):
     list_display = (
         "id",
-        "email",
         "username",
+        "email",
+        "user_type",
         "date_joined",
         "is_active",
         "is_staff",
@@ -28,6 +29,7 @@ class UserAdminConfig(UserAdmin):
                 "fields": (
                     "username",
                     "email",
+                    "user_type",
                     "password1",
                     "password2",
                     "is_staff",
@@ -44,6 +46,7 @@ class UserAdminConfig(UserAdmin):
                 "fields": (
                     "first_name",
                     "last_name",
+                    "user_type",
                     "email",
                     "username",
                     "password",
@@ -61,7 +64,7 @@ class UserAdminConfig(UserAdmin):
             },
         ),
     )
-    list_filter = ("is_active", "is_staff", "is_superuser")
+    list_filter = ("is_active", "is_staff", "is_superuser", "user_type")
     search_fields = ("username", "email")
     ordering = ("email",)
     filter_horizontal = []

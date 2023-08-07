@@ -21,10 +21,12 @@ coverage = "^7.2.7"
 gunicorn = "^21.2.0"
 psycopg = "^3.1.9"
 pillow = "^10.0.0"
+bpython = "^0.24"
 
 
 [tool.poetry.group.dev.dependencies]
 colorlog = "^6.7.0"
+bpython = "^0.24"
 
 [build-system]
 requires = ["poetry-core"]
