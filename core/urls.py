@@ -10,6 +10,7 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("api/v1/", include("api.v1.urls"), name="api-v1"),
 ]
 
 if settings.DEBUG:
@@ -19,10 +20,9 @@ if settings.DEBUG:
             # the * start before static is used for sequence unpacking
             # because static returns a list of urlpatterns
             *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
-            path("api-auth/", include("rest_framework.urls")),
-            path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+            path("api/v1/schema/", SpectacularAPIView.as_view(), name="schema"),
             path(
-                "api/schema/docs/",
+                "api/v1/docs/",
                 SpectacularSwaggerView.as_view(url_name="schema"),
                 name="schema-docs",
             ),

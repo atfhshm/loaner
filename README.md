@@ -1,1 +1,1 @@
-# Django-auth
+# Django loaner
