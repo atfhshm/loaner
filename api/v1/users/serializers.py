@@ -55,24 +55,6 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         return user
 
 
-class UserLoginSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = (
-            "id",
-            "first_name",
-            "last_name",
-            "username",
-            "email",
-            "user_type",
-            "password",
-        )
-        read_only_fields = ("id", "first_name", "last_name", "email", "user_type")
-        extra_kwargs = {
-            "password": {"write_only": True},
-        }
-
-
 class UserDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

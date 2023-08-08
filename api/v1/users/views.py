@@ -1,24 +1,19 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.request import Request
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from django.utils import timezone
 
 from drf_spectacular.utils import extend_schema, OpenApiResponse
 
-from users.models import User
+
+from .serializers import UserRegisterSerializer, UserDataSerializer
 
 
-from api.utils.tokens import get_tokens_for_user
-from .serializers import UserRegisterSerializer, UserLoginSerializer, UserDataSerializer
-
-
-__all__ = ["UserRegisterView", "UserLoginView", "UserDataView"]
+__all__ = ["UserRegisterView", "UserDataView"]
 
 
 @extend_schema(
-    tags=["auth"],
+    tags=["user-register"],
     request=UserRegisterSerializer,
     responses={
         201: OpenApiResponse(UserRegisterSerializer),
@@ -36,38 +31,6 @@ class UserRegisterView(APIView):
         else:
             return Response(
                 data=serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE
-            )
-
-
-class UserLoginView(APIView):
-    permission_classes = [AllowAny]
-
-    @extend_schema(
-        tags=["auth"],
-        request=UserLoginSerializer,
-        responses={
-            status.HTTP_200_OK: OpenApiResponse(UserLoginSerializer),
-            status.HTTP_401_UNAUTHORIZED: OpenApiResponse(description="Unauthorized"),
-        },
-    )
-    def post(self, request: Request):
-        username = request.data.get("username")
-        password = request.data.get("password")
-        user: User = User.objects.filter(username=username).first()
-        tokens = get_tokens_for_user(user=user)
-
-        if user and user.check_password(password):
-            user.last_login = timezone.now()
-            user.save()
-
-            serializer = UserLoginSerializer(instance=user)
-            payload = serializer.data | tokens
-
-            return Response(data=payload, status=status.HTTP_202_ACCEPTED)
-
-        else:
-            return Response(
-                data={"msg": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED
             )
 
 
