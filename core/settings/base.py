@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     # Project apps
     "users.apps.UsersConfig",
     "funds.apps.FundsConfig",
+    "loans.apps.LoansConfig",
 ]
 
 # Middleware definition
