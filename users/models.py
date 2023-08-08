@@ -31,15 +31,8 @@ class UserManager(BaseUserManager):
         Returns:
             User: an instance of User model
         """
-        if not first_name:
-            raise ValueError("first name must be provided")
-        if not last_name:
-            raise ValueError("last name must be provided")
         if not username:
             raise ValueError("username must be provided")
-        if not email:
-            raise ValueError("email must be provided")
-        email = self.normalize_email(email=email)
 
         user: User = self.model(
             first_name=first_name,

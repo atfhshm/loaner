@@ -13,7 +13,7 @@ __all__ = ["UserRegisterView", "UserDataView"]
 
 
 @extend_schema(
-    tags=["user-register"],
+    tags=["users"],
     request=UserRegisterSerializer,
     responses={
         201: OpenApiResponse(UserRegisterSerializer),

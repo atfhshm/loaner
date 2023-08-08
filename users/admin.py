@@ -27,6 +27,8 @@ class UserAdminConfig(UserAdmin):
             {
                 "classes": ("wide",),
                 "fields": (
+                    "first_name",
+                    "last_name",
                     "username",
                     "email",
                     "user_type",
