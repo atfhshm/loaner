@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "corsheaders",
     # Project apps
     "users.apps.UsersConfig",
+    "funds.apps.FundsConfig",
 ]
 
 # Middleware definition
