@@ -1,12 +1,12 @@
-import email
-from django.contrib.auth.password_validation import validate_password
-
-from users.models import User
 from rest_framework import serializers
 from rest_framework import status
 
+from django.contrib.auth.password_validation import validate_password
 
-__all__ = ["UserRegisterSerializer", "UserLoginSerializer"]
+from users.models import User
+
+
+__all__ = ["UserRegisterSerializer", "UserLoginSerializer", "UserDataSerializer"]
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -71,3 +71,10 @@ class UserLoginSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             "password": {"write_only": True},
         }
+
+
+class UserDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ("id", "first_name", "last_name", "username", "email")
+        extra_kwargs = {"id": {"read_only": True}}
