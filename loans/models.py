@@ -3,6 +3,10 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
 
+
+__all__ = ["LoanRequest", "Loan", "PaymentTransaction"]
+
+
 User = get_user_model()
 
 
@@ -106,6 +110,37 @@ class Loan(models.Model):
         return f"{self.recipient}:{self.amount}"
 
 
+class PaymentTransaction(models.Model):
+    customer = models.ForeignKey(
+        User,
+        verbose_name=_("customer"),
+        on_delete=models.CASCADE,
+        related_name="payment_transactions",
+    )
+    loan = models.ForeignKey(
+        Loan,
+        verbose_name=_("loan"),
+        on_delete=models.CASCADE,
+        related_name="transactions",
+    )
+    amount = models.DecimalField(
+        max_digits=8,
+        decimal_places=2,
+        validators=[
+            MinValueValidator(100, message=_("The minimum loan amount is 100"))
+        ],
+    )
+    created_at = models.DateField(verbose_name=_("created at"), auto_now_add=True)
+
+    class Meta:
+        db_table = "payment_transactions"
+        verbose_name = _("payment transaction")
+        verbose_name_plural = _("payment transactions")
+
+    def __str__(self) -> None:
+        return f"{self.customer}:{self.amount}"
+
+
 # class Amortization(models.Model):
 #     loan = models.ForeignKey(
 #         Loan,
@@ -113,35 +148,3 @@ class Loan(models.Model):
 #         on_delete=models.CASCADE,
 #         related_name="amortizations",
 #     )
-
-
-# each loan transaction amount will be added to the provider fund budget
-# class loanTransaction(models.Model):
-#     customer = models.ForeignKey(
-#         User,
-#         verbose_name=_("customer"),
-#         on_delete=models.CASCADE,
-#         related_name="payment_transactions",
-#     )
-#     loan = models.ForeignKey(
-#         Loan,
-#         verbose_name=_("loan"),
-#         on_delete=models.CASCADE,
-#         related_name="transactions",
-#     )
-#     amount = models.DecimalField(
-#         max_digits=8,
-#         decimal_places=2,
-#         validators=[
-#             MinValueValidator(100, message=_("The minimum loan amount is 100"))
-#         ],
-#     )
-#     created_at = models.DateField(verbose_name=_("created at"), auto_now_add=True)
-
-#     class Meta:
-#         db_table = "loan_transactions"
-#         verbose_name = _("loan transaction")
-#         verbose_name_plural = _("loan transactions")
-
-#     def __str__(self) -> None:
-#         return f"{self.customer}:{self.amount}"
