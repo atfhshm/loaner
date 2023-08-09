@@ -83,8 +83,8 @@ class Loan(models.Model):
             MinValueValidator(100, message=_("The minimum loan amount is 100"))
         ],
     )
-    interest_rate = models.DecimalField(
-        verbose_name=_("interest rate"),
+    annual_interest_rate = models.DecimalField(
+        verbose_name=_("annual interset rate"),
         max_digits=5,
         decimal_places=2,
         validators=[
@@ -95,6 +95,21 @@ class Loan(models.Model):
     )
     term = models.PositiveIntegerField(
         verbose_name=_("loan term"), help_text=_("number of months to pay the loan")
+    )
+    payment_amount = models.DecimalField(
+        verbose_name=_("loan payment amount"),
+        max_digits=8,
+        decimal_places=2,
+        validators=[
+            MinValueValidator(
+                limit_value=1, message="interest rate can not be less than 1 (%)"
+            )
+        ],
+        null=True,
+        blank=True,
+    )
+    start_date = models.DateField(
+        verbose_name=_("loan start date"), null=True, blank=True
     )
     payment_date = models.DateField(
         verbose_name=_("next loan payment date"), null=True, blank=True
@@ -148,3 +163,6 @@ class PaymentTransaction(models.Model):
 #         on_delete=models.CASCADE,
 #         related_name="amortizations",
 #     )
+    
+    
+    
