@@ -171,7 +171,7 @@ class PaymentTransaction(models.Model):
         verbose_name = _("payment transaction")
         verbose_name_plural = _("payment transactions")
 
-    def __str__(self) -> None:
+    def __str__(self):
         return f"{self.customer}:{self.amount}"
 
 
