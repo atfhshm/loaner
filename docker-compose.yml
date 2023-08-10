@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  api:
+    container_name: 'loaner-api'
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - 8000:8000
+    volumes:
+      - ./:/usr/src/app:ro
+    env_file:
+      - .env
+
+  db:
+    image: postgres
+    container_name: loaner-db
+    environment:
+      - POSTGRES_DB=loaner-db
+      - POSTGRES_PASSWORD=123456789
+    volumes:
+      - postgres_db:/var/lib/postgresql/data
+
+volumes:
+  postgres_db:

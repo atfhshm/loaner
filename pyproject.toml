@@ -1,11 +1,11 @@
 [tool.poetry]
-name = "django-auth"
+name = "Loaner Project"
 version = "0.1.0"
-description = "Django JWT auth system"
+description = "Loaning system"
 authors = ["atfhshm <its.atfhshm@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "django_auth"}]
+packages = [{include = "django_loaner"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
