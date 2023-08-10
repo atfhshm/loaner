@@ -55,9 +55,9 @@ def create_and_update_amortization(
                 loan=loan,
             )
             current_amortization.save()
-            if current_amortization.ending_balance <= 0:
-                loan.status == "PAID"
-                loan.save()
+            print(ending_balance)
+            if current_amortization.ending_balance == 0:
+                loan.status = "PAID"
 
         else:
             initial_balance = loan.amount
