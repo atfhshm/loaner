@@ -19,9 +19,11 @@ from .serializers import (
 from loans.models import Loan, LoanRequest, PaymentTransaction, Amortization
 from funds.models import Fund
 
+from users.permissions import IsCustomer, IsBanker, IsProvider
+
 
 class RequestLoanView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsCustomer]
 
     @extend_schema(tags=["loans"], request=RequestLoanSerializer)
     def post(self, request):
@@ -48,12 +50,14 @@ class RequestLoanView(APIView):
 
 
 class ProcessLoanRequestView(APIView):
+    permission_classes = [IsAuthenticated, IsBanker]
+
     @extend_schema(
         tags=["loans"],
         responses={status.HTTP_200_OK: ProcessLoanRequestSerializer(many=True)},
     )
     def get(self, request):
-        loan_requests = LoanRequest.objects.filter(requester=self.request.user)
+        loan_requests = LoanRequest.objects.filter(status="PENDING")
         serializer = ProcessLoanRequestSerializer(instance=loan_requests, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
@@ -103,7 +107,7 @@ class ProcessLoanRequestView(APIView):
 
 
 class LoanView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsBanker]
 
     @extend_schema(
         tags=["loans"],
@@ -174,7 +178,7 @@ class CustomerLoansView(generics.ListAPIView):
 
 
 class CustomerPaymentTransactionView(generics.ListCreateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsCustomer]
     serializer_class = LoanPaymentTransactionSerializer
 
     @extend_schema(tags=["loans"])
@@ -201,7 +205,7 @@ class CustomerPaymentTransactionView(generics.ListCreateAPIView):
 
 
 class ProviderAmortizationView(generics.ListAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsProvider]
     serializer_class = AmortizationDisplaySerializer
 
     @extend_schema(tags=["loans"])
