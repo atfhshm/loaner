@@ -22,6 +22,16 @@ from funds.models import Fund
 from users.permissions import IsCustomer, IsBanker, IsProvider
 
 
+__all__ = [
+    "RequestLoanView",
+    "ProcessLoanRequestView",
+    "LoanView",
+    "CustomerLoansView",
+    "CustomerPaymentTransactionView",
+    "ProviderAmortizationView"
+]
+
+
 class RequestLoanView(APIView):
     permission_classes = [IsAuthenticated, IsCustomer]
 
