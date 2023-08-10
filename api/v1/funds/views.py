@@ -5,16 +5,16 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from django.shortcuts import get_object_or_404
 from drf_spectacular.utils import extend_schema
 
-from funds.models import Fund, FundTransaction
+from funds.models import Fund
 
-from .serializers import FundSerializer, FundTransaction, FundTransactionSerializer
+from .serializers import FundSerializer, FundTransactionSerializer
+from users.permissions import IsProvider
 
 
 class ProviderFundView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsProvider]
 
     @extend_schema(tags=["funds"], responses={status.HTTP_200_OK: FundSerializer})
     def get(self, request):
@@ -24,7 +24,7 @@ class ProviderFundView(APIView):
 
 
 class FundTransactionView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsProvider]
 
     @extend_schema(
         tags=["funds"],
