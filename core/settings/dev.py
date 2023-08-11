@@ -1,3 +1,4 @@
+import dj_database_url
 from decouple import config
 
 from .base import *
@@ -9,11 +10,13 @@ ALLOWED_HOSTS = ["127.0.0.1"]
 
 # Database
 
+DB_URI = (f'{config("db_schema", str)}://{config("db_user")}:{config("db_password")}' + 
+          f'@{config("db_host")}:{config("db_port")}/{config("db_name")}')
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    "default": dj_database_url.config(
+        default= DB_URI
+    )
 }
 
 # Installed apps definition for development environment
