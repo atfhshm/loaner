@@ -119,7 +119,7 @@ class Loan(models.Model):
         blank=True,
     )
     start_date = models.DateField(
-        verbose_name=_("loan start date"), null=True, blank=True
+        verbose_name=_("loan start date"),
     )
     payment_date = models.DateField(
         verbose_name=_("next loan payment date"), null=True, blank=True
