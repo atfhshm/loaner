@@ -10,14 +10,12 @@ ALLOWED_HOSTS = []
 
 # Database
 
-DB_URI = (f'{config("db_schema", str)}://{config("db_user")}:{config("db_password")}' + 
-          f'@{config("db_host")}:{config("db_port")}/{config("db_name")}')
+DB_URI = (
+    f'{config("db_schema", str)}://{config("db_user")}:{config("db_password")}'
+    + f'@{config("db_host")}:{config("db_port")}/{config("db_name")}'
+)
 
-DATABASES = {
-    "default": dj_database_url.config(
-        default= DB_URI
-    )
-}
+DATABASES = {"default": dj_database_url.config(default=DB_URI)}
 
 # Installed apps definition for development environment
 
