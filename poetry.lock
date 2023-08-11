@@ -451,6 +451,20 @@ offline = ["drf-spectacular-sidecar"]
 sidecar = ["drf-spectacular-sidecar"]
 
 [[package]]
+name = "faker"
+version = "19.3.0"
+description = "Faker is a Python package that generates fake data for you."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "Faker-19.3.0-py3-none-any.whl", hash = "sha256:bee54278d6e1289573317604ab6f4782acca724396bf261eaf1890de228e553d"},
+    {file = "Faker-19.3.0.tar.gz", hash = "sha256:7d6ed00de3eef9bd57504500c67ee034cab959e4248f9c24aca33e08af82ca93"},
+]
+
+[package.dependencies]
+python-dateutil = ">=2.4"
+
+[[package]]
 name = "greenlet"
 version = "2.0.2"
 description = "Lightweight in-process concurrent programming"
@@ -1181,4 +1195,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "52e59773b5801cb6ea0caef54512e43b1b89278835660c03d14c9a615ecff251"
+content-hash = "4edb5f362f28086bb4d56ce6c839ca853223859653901a4ec9c9d8ac0ec56a6d"
